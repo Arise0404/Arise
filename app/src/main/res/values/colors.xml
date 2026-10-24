@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主色调 -->
+    <color name="bg_main">#1F1F1F</color>
+    <color name="bg_input">#2E2E2E</color>
+    <color name="bg_nav">#252525</color>
+    <color name="bg_nav_item">#2E2E2E</color>
+
+    <!-- 气泡 -->
+    <color name="bubble_user">#4C7DF0</color>
+    <color name="bubble_ai">#2A2A2A</color>
+
+    <!-- 文字 -->
+    <color name="text_main">#ECECEC</color>
+    <color name="text_hint">#8A8A8A</color>
+
+    <!-- 主题必需 -->
+    <color name="primary">#4C7DF0</color>
+    <color name="primary_dark">#2C5578</color>
+    <color name="accent">#4C7DF0</color>
+    <color name="ic_launcher_background">#1F1F1F</color>
+    <color name="ic_launcher_foreground">#4C7DF0</color>
+</resources>

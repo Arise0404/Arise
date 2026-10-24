@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog"
+    android:padding="22dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="模型生成参数"
+        android:textColor="@color/text_main"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginTop="16dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 温度 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="温度 (Temperature)" android:textColor="@color/text_main"/>
+                <TextView android:id="@+id/tvTempVal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/text_hint"/>
+            </LinearLayout>
+            <SeekBar android:id="@+id/sbTemp" android:layout_width="match_parent" android:layout_height="wrap_content" android:progress="85" android:max="150"/>
+
+            <!-- Top P -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="16dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="词汇丰富度 (Top P)" android:textColor="@color/text_main"/>
+                <TextView android:id="@+id/tvTopPVal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/text_hint"/>
+            </LinearLayout>
+            <SeekBar android:id="@+id/sbTopP" android:layout_width="match_parent" android:layout_height="wrap_content" android:progress="95" android:max="100"/>
+
+            <!-- 重复惩罚 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="16dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="防复读惩罚 (Repeat Penalty)" android:textColor="@color/text_main"/>
+                <TextView android:id="@+id/tvPenaltyVal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/text_hint"/>
+            </LinearLayout>
+            <SeekBar android:id="@+id/sbPenalty" android:layout_width="match_parent" android:layout_height="wrap_content" android:progress="110" android:max="200"/>
+
+            <!-- 最大长度 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="16dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="最大生成长度 (Max Tokens)" android:textColor="@color/text_main"/>
+                <TextView android:id="@+id/tvMaxTokensVal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/text_hint"/>
+            </LinearLayout>
+            <SeekBar android:id="@+id/sbMaxTokens" android:layout_width="match_parent" android:layout_height="wrap_content" android:progress="50" android:max="200"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/btnSaveParams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_primary"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="保存参数"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+</LinearLayout>
