@@ -1,0 +1,56 @@
+<!doctype html>
+<!--
+  悬浮层页面：给 Android 的悬浮窗（TYPE_APPLICATION_OVERLAY + WebView）用的最小宿主。
+  没有面板、没有背景，整个视口就是宠物的活动区。往下用 window.petCall(方法, 参数)，
+  往上用 Android.setBox(身体框) 与 Android.onEvent(事件)，两个口子都做了节流与容错。
+  形象包与渲染层来自 Pal-AI-Lab/Coopanion：代码 AGPL-3.0-or-later，web/whale 贴图不在 AGPL 授权内。
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>pet overlay</title>
+<link rel="icon" href="data:,">
+<style>
+  html, body { margin:0; padding:0; height:100%; background:transparent; overflow:hidden; }
+  #box { position:absolute; inset:0; touch-action:none; }
+</style>
+</head>
+<body><div id="box"></div>
+<script type="module">
+import { createPetWidget } from './src/widget.js';
+
+const q = new URLSearchParams(location.search);
+const send = (fn, ...args) => { try { window.Android?.[fn]?.(...args); } catch { /* 宿主没接就别吵 */ } };
+
+const pet = window.pet = await createPetWidget(document.getElementById('box'), {
+  scheme: q.get('scheme') || undefined,
+  scale: Number(q.get('scale')) || undefined,
+  roam: q.get('roam') === 'off' ? 'off' : 'free',
+  onBox: b => send('setBox', JSON.stringify(b)),
+  onEvent: (kind, detail) => send('onEvent', JSON.stringify({ kind, detail })),  // 嵌套：detail.kind 不会盖掉外层 kind
+});
+send('onEvent', JSON.stringify({ kind: 'ready', scheme: pet.stats().scheme }));
+
+const CALLS = {
+  ping: () => 'pong',
+  say: t => pet.say(t),
+  do: w => pet.do(w),
+  wear: s => pet.wear(s),
+  set: patch => pet.set(patch ?? {}),
+  place: p => pet.place(p?.x, p?.facing),
+  stats: () => pet.stats(),
+  // 绘制层不吃触摸时，触摸层的坐标从这里进来：{ type:'down'|'move'|'up'|'leave', x, y }（本视口 CSS 像素）
+  pointer: a => pet.pointer(a?.type, { x: Number(a?.x) || 0, y: Number(a?.y) || 0 }),
+  anchor: () => pet.anchor(),
+  words: () => pet.words,
+};
+/** 安卓侧唯一入口：window.petCall('say', '你好')，永远回 {ok, value | error}。 */
+window.petCall = async (method, arg) => {
+  const fn = CALLS[method];
+  if (!fn) return { ok: false, error: `不认识的方法 ${method}` };
+  try { return { ok: true, value: await fn(arg) }; } catch (e) { return { ok: false, error: String(e?.message ?? e) }; }
+};
+</script>
+</body>
+</html>
